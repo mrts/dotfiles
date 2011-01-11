@@ -1,5 +1,7 @@
 " indispensable things: c-x f, gf, mappings, c-] and c-[, folds: zo, zc, zm, zr
 " ctags
+" local_vimrc.vim  http://code.google.com/p/lh-vim/
+" matchit.vim      http://www.vim.org/script.php?script_id=39
 " optimized for jj->esc and c-j to break out of autocomplete
 " use c-v { if you don't want autocomplete
 
@@ -25,9 +27,9 @@ set shortmess=IfilnxtToO
 set foldmethod=syntax
 set foldlevelstart=99
 
-vnoremap <C-X> ''+x
-vnoremap <C-C> ''+y
-map <C-Insert> ''+gP
+vnoremap <C-X> "+x
+vnoremap <C-C> "+y
+map <C-Insert> "+gP
 
 inoremap jj <esc>
 inoremap <tab> <c-r>=InsertTabWrapper ("back")<cr>
@@ -270,6 +272,8 @@ function LoadPython()
 	call ExpandTabs(4)
 	call PythonMakeMappings()
 	call ShowTrailing()
+	set foldmethod=expr
+	set foldexpr=PythonFoldExpr(v:lnum)
 endfunction
 
 function LoadPerl()
@@ -338,4 +342,31 @@ function! BC_GetChar()
 	let l:char = b:robstack[strlen(b:robstack)-1]
 	let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
 	return l:char
+endfunction
+
+" from http://www.vim.org/scripts/script.php?script_id=1494
+function! PythonFoldExpr(lnum)
+    if indent(nextnonblank(a:lnum)) == 0
+        return 0
+    endif
+    if getline(a:lnum-1) =~ '^\(class\|def\)\s'
+        return 1
+    endif
+    if getline(a:lnum) =~ '^\s*$'
+        return "="
+    endif
+    if indent(a:lnum) == 0
+        return 0
+    endif
+    return '='
+endfunction
+
+" In case folding breaks down
+function! ReFold()
+    set foldmethod=expr
+    set foldexpr=0
+    set foldnestmax=1
+    set foldmethod=expr
+    set foldexpr=PythonFoldExpr(v:lnum)
+    echo 
 endfunction
