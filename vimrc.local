@@ -1,0 +1,341 @@
+" indispensable things: c-x f, gf, mappings, c-] and c-[, folds: zo, zc, zm, zr
+" ctags
+" optimized for jj->esc and c-j to break out of autocomplete
+" use c-v { if you don't want autocomplete
+
+filetype plugin indent on
+syntax on
+
+set autowrite
+set nocompatible
+set showmatch
+set showcmd
+set ruler
+set nobackup
+set ignorecase
+set smartcase
+set incsearch
+set smarttab
+set backspace=indent,eol,start
+set whichwrap+=<,>,[,]
+" set exrc
+
+set shortmess=IfilnxtToO
+
+set foldmethod=syntax
+set foldlevelstart=99
+
+vnoremap <C-X> ''+x
+vnoremap <C-C> ''+y
+map <C-Insert> ''+gP
+
+inoremap jj <esc>
+inoremap <tab> <c-r>=InsertTabWrapper ("back")<cr>
+inoremap <s-tab> <c-r>=InsertTabWrapper ("forward")<cr>
+inoremap <c-b> <home>
+inoremap <c-e> <end>
+
+noremap <Space> i<Space><Esc>
+noremap <CR> i<CR><Esc>
+noremap j jzz
+noremap k kzz
+nnoremap ZQ :confirm qall<cr>
+nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o><c-l>
+nnoremap <silent> gc xph
+noremap <F8> :nohlsearch<cr>
+noremap <F11> :w<enter>:exec system("ispell -l -t -d estonian < ".expand("%")." \| sort -u \| sed 's/\\(.*\\)/syntax match Todo \"\\\\<\\1\\\\>\" contains=TOP /'")<enter>
+noremap <F12> :w<enter>:exec system("ispell -l -t -d american < ".expand("%")." \| sort -u \| sed 's/\\(.*\\)/syntax match Todo \"\\\\<\\1\\\\>\" contains=TOP /'")<enter>
+
+" --- AUTOCOMMANDS ---
+
+au BufReadPost * '"
+
+au BufNewFile,BufRead SConstruct,SConscript set filetype=python
+
+au FileType c call LoadC()
+au FileType cpp call LoadCpp()
+au FileType java call LoadJava()
+au FileType cs call LoadJava()
+au FileType scala call LoadJava()
+au FileType ant call LoadXml()
+
+au FileType python call LoadPython()
+au FileType perl call LoadPerl()
+au FileType php call LoadPhp()
+au FileType javascript call LoadJs()
+
+au FileType html call LoadXml()
+au FileType xhtml call LoadXml()
+au FileType htmldjango call LoadXml()
+au FileType xml call LoadXml()
+au FileType xslt call LoadXml()
+au FileType tpl call LoadXml()
+au FileType tex call LoadTex()
+
+" --- ABBREVIATIONS ---
+
+iab tstamp <C-R>=strftime("%d.%m.%Y %H:%M")<CR>
+
+iab sig Copyleft (c) <C-R>=strftime("%Y")<CR> Mart Sõmermaa, date created: <C-R>=strftime("%Y-%m-%d")<CR><CR><CR>Version: $Id$<CR>
+
+iab gpl This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+iab mit This program is free software; you can redistribute it and/or modify it under the terms of the MIT Licence as published by the Open Source Initiative group on the web at http://www.opensource.org/licenses/mit-license.php.
+
+" --- USER UTILITY FUNCTIONS ---
+
+function ShowTabs()
+        highlight Tabs ctermbg=blue guibg=blue
+        match Tabs /\t\ze[^\t]/
+endfunction
+
+function ShowTrailing()
+        highlight TrailingSpace ctermbg=red guibg=red
+        match TrailingSpace /\s\+$/
+endfunction
+
+function InsertGuards()
+        let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
+        execute "normal ggO#ifndef " . gatename . "__"
+        execute "normal o#define " . gatename . "__\<cr>"
+        execute "normal Go\<cr>#endif /* " . gatename . " */"
+        normal kk
+endfunction
+
+function DontSearchIncludes()
+	set complete=.,w,b,u,t
+endfunction
+
+function SearchIncludes()
+	set complete&
+endfunction
+
+
+" --- LANGUAGE SPECIFIC INITFUNCTIONS: HELPERS ---
+
+function AutoCompleteSingleQuote()
+        inoremap ' ''<esc>:call BC_AddChar("\'")<cr>i
+endfunction
+
+function AutoCompleteBlocksAndDoubleQoutesSimple()
+        inoremap ( ()<esc>:call BC_AddChar(")")<cr>i
+        inoremap { {}<esc>:call BC_AddChar("}")<cr>i
+        inoremap [ []<esc>:call BC_AddChar("]")<cr>i
+        inoremap " ""<esc>:call BC_AddChar("\"")<cr>i
+        " jump out of parenthesis
+        inoremap <C-j> <esc>:call search(BC_GetChar(), "W")<cr>a
+endfunction
+
+function AutoCompleteBlocksAndDoubleQoutes()
+        inoremap ( ()<esc>:call BC_AddChar(")")<cr>i
+        inoremap { {<cr>}<esc>:call BC_AddChar("}")<cr>kA<cr>
+        inoremap [ []<esc>:call BC_AddChar("]")<cr>i
+        inoremap " ""<esc>:call BC_AddChar("\"")<cr>i
+        " jump out of parenthesis
+        inoremap <C-j> <esc>:call search(BC_GetChar(), "W")<cr>a
+endfunction
+
+function MakeMappings()
+	noremap <F2> :make<cr>
+        noremap <F3> :cn<cr>
+        noremap <F4> :cc<cr>
+        noremap <F5> :cp<cr>
+endfunction
+
+" /etc/vim/pyerrfilter.py:
+" #!/usr/bin/env python
+" import sys
+" input = sys.stdin.readlines()
+" print ''.join(input)
+" message = input.pop()[:-1]
+" input.reverse()
+" f = open(sys.argv[1], 'wb')
+" for line in input:
+"     if line.find('  File') == 0:
+"         f.write(line[:-1] + ', ' + message + '\n')
+"         message = 'Traceback'
+" f.close()
+function PythonMakeMappings()
+	set makeprg=python\ %
+	set shellpipe=2>&1\ \|\ /etc/vim/pyerrfilter.py
+	set errorformat=\ \ File\ \"%f\"\\,\ line\ %l\\,\ in\ %*[^\\,]\\,\ %m
+        call MakeMappings()
+endfunction
+
+function JavaMakeMappings()
+	set makeprg=make\ %
+	"set makeprg=javac\ %
+	set errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+	"set makeprg=jikes\ -deprecation\ -Xstdout\ +E\ %
+	"see also http://vim.sourceforge.net/tips/tip.php?tip_id=3 hiker
+	"errorformat=%f:%l:%c:%*\\d:%*\\d:%*\\s%m
+        call MakeMappings()
+endfunction
+
+function PerlMakeMappings()
+	set makeprg=perl\ %
+	set errorformat=%m\ at\ %f\ line\ %l.
+        call MakeMappings()
+endfunction
+
+function XMLTagComplete()
+	map <F2> :s%<\([^>]\+\)>\(.*\)%<\1>\2</\1>%<enter>
+	imap <F2> <esc>:s%<\([^>]\+\)>\(.*\)%<\1>\2</\1>%<enter>o
+endfunction
+
+function ExpandTabs(width)
+	let &shiftwidth = a:width
+	let &tabstop = a:width
+	set expandtab
+endfunction
+
+function NoExpandTabs()
+	set noexpandtab
+	set shiftwidth=8
+	set tabstop=8
+endfunction
+
+function TextWidth()
+	set textwidth=78
+endfunction
+
+function BlockComment(strb, stre)
+	silent execute ':noremap ,/ :s/^\%V\_.*\%V$/'.a:strb.' & '.a:stre.'/<CR>:nohlsearch<CR>'
+	silent execute ':noremap ,d :s/^\%V'.a:strb.' \(\_.*\) '.a:stre.'\%V$/\1/<CR>:nohlsearch<CR>'
+endfunction
+
+function LineComment(symb)
+	silent execute ':noremap ,c :s/^\s*/&'.a:symb.' /<CR>:nohlsearch<CR>'
+	silent execute ':noremap ,u :s/^\(\s*\)'.a:symb.' /\1/<CR>:nohlsearch<CR>'
+endfunction
+
+function CppComments()
+	call LineComment('\/\/')
+	call BlockComment('\/\*', '\*\/')
+endfunction
+
+function XMLComments()
+	call BlockComment('<!--', '-->')
+endfunction
+
+function ScriptComments()
+	call LineComment('#')
+endfunction
+
+function FoldWithBraces()
+	set foldmarker={,}
+	set foldmethod=marker
+endfunction
+
+" --- LANGUAGE SPECIFIC INITFUNCTIONS ---
+
+function LoadC()
+	call DontSearchIncludes()
+	call AutoCompleteBlocksAndDoubleQoutes()
+	call CppComments()
+	call ShowTrailing()
+	call ExpandTabs(4)
+	call TextWidth()
+	call MakeMappings()
+endfunction
+
+function LoadCpp()
+	call DontSearchIncludes()
+	call AutoCompleteBlocksAndDoubleQoutes()
+	call CppComments()
+	call ShowTrailing()
+	call ExpandTabs(4)
+	call TextWidth()
+	call MakeMappings()
+endfunction
+
+function LoadJava()
+	" foldmethod syntax is better but doesn't work for java
+	call FoldWithBraces()
+	call AutoCompleteBlocksAndDoubleQoutes()
+	call CppComments()
+	call ShowTrailing()
+	call ExpandTabs(4)
+	call JavaMakeMappings()
+	call TextWidth()
+	" call AntMappings()
+endfunction
+
+function LoadPython()
+	call DontSearchIncludes()
+	call AutoCompleteBlocksAndDoubleQoutesSimple()
+	call AutoCompleteSingleQuote()
+	call ScriptComments()
+	call TextWidth()
+	call ExpandTabs(4)
+	call PythonMakeMappings()
+	call ShowTrailing()
+endfunction
+
+function LoadPerl()
+	call AutoCompleteBlocksAndDoubleQoutes()
+	call AutoCompleteSingleQuote()
+	call ScriptComments()
+	call ShowTrailing()
+	call TextWidth()
+	call ExpandTabs(4)
+	call PerlMakeMappings()
+endfunction
+
+function LoadPhp()
+	call FoldWithBraces()
+	call AutoCompleteBlocksAndDoubleQoutes()
+	call AutoCompleteSingleQuote()
+	call CppComments()
+	call ShowTrailing()
+	call TextWidth()
+	call ExpandTabs(4)
+endfunction
+
+function LoadJs()
+	call FoldWithBraces()
+	call AutoCompleteBlocksAndDoubleQoutes()
+	call CppComments()
+	call ShowTrailing()
+	call ExpandTabs(2)
+	call TextWidth()
+endfunction
+
+function LoadXml()
+	call TextWidth()
+	call ExpandTabs(2)
+	call ShowTrailing()
+	call XMLComments()
+	call XMLTagComplete()
+endfunction
+
+function LoadTex()
+	call TextWidth()
+endfunction
+
+" --- INTERNAL FUNCTIONALITY FUNCTIONS
+
+function! InsertTabWrapper(direction)
+	let col = col('.') - 1
+	if !col || getline('.')[col - 1] !~ '\k'
+		return "\<tab>"
+	elseif "back" == a:direction
+		return "\<c-p>"
+	else
+		return "\<c-n>"
+	endif
+endfunction
+
+function! BC_AddChar(schar)
+	if exists("b:robstack")
+		let b:robstack = b:robstack . a:schar
+	else
+		let b:robstack = a:schar
+	endif
+endfunction
+
+function! BC_GetChar()
+	let l:char = b:robstack[strlen(b:robstack)-1]
+	let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
+	return l:char
+endfunction
