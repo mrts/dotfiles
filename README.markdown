@@ -6,4 +6,4 @@ Let's ride:
     cd dotfiles
     sudo cp pyerrfilter.py gvimrc.local vimrc.local  /etc/vim/
     sudo cp bash.bashrc.local /etc/
-    sudo -c "echo '. /etc/bash.bashrc.local' >> /etc/bash.bashrc"
+    sudo sh -c "echo '. /etc/bash.bashrc.local' >> /etc/bash.bashrc"
