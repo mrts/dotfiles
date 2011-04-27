@@ -191,10 +191,11 @@ function ExpandTabs(width)
 	set expandtab
 endfunction
 
-function NoExpandTabs()
+function NoExpandTabs(width)
+	let &shiftwidth = a:width
+	let &tabstop = a:width
+	let &softtabstop = a:width
 	set noexpandtab
-	set shiftwidth=8
-	set tabstop=8
 endfunction
 
 function TextWidth()
@@ -237,6 +238,8 @@ function LoadC()
 	call CppComments()
 	call ShowTrailing()
 	call ExpandTabs(4)
+	" if you need to be compliant with Visual Studio
+	" call NoExpandTabs(4)
 	call TextWidth()
 	call MakeMappings()
 endfunction
@@ -247,6 +250,8 @@ function LoadCpp()
 	call CppComments()
 	call ShowTrailing()
 	call ExpandTabs(4)
+	" if you need to be compliant with Visual Studio
+	" call NoExpandTabs(4)
 	call TextWidth()
 	call MakeMappings()
 endfunction
