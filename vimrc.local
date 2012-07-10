@@ -24,6 +24,9 @@ set whichwrap+=<,>,[,]
 
 set shortmess=IfilnxtToO
 
+" avoid 'press enter' when integrated with VS
+set cmdheight=2
+
 set foldmethod=syntax
 set foldlevelstart=99
 
