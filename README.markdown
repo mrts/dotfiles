@@ -12,21 +12,20 @@ Let's ride:
 
 1. Copy `gvimrc.local` and `vimrc.local` to `\Program Files (x86)\Vim\vim73`.
 
-1. Open `\Program Files (x86)\Vim\_vimrc` and add the following lines:
+1. Open `\Program Files (x86)\Vim\_vimrc` and add the following lines
+   (`autoread` is required for Visual Studio integration):
 
         source $VIMRUNTIME/vimrc.local
         source $VIMRUNTIME/gvimrc.local
+        
+        set directory=.,$TEMP
+        set encoding=utf-8
+        set autoread
+        
         " set nocompatible
         " source $VIMRUNTIME/vimrc_example.vim
         " source $VIMRUNTIME/mswin.vim
         " behave mswin
-
-1. Add the following to `vimrc.local` (`autoread` is required for Visual Studio
-   integration):
-
-        set directory=.,$TEMP
-        set encoding=utf-8
-        set autoread
 
 1. Configure Visual Studio according to the instructions in
    [Vim wiki](http://vim.wikia.com/wiki/Integrate_gvim_with_Visual_Studio).
