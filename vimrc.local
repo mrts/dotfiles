@@ -33,6 +33,7 @@ set foldlevelstart=99
 vnoremap <C-X> "+x
 vnoremap <C-C> "+y
 map <C-Insert> "+gP
+" inoremap <C-Insert> <esc>"+gPi
 
 inoremap jj <esc>
 inoremap <tab> <c-r>=InsertTabWrapper ("back")<cr>
@@ -240,9 +241,7 @@ function LoadC()
 	call AutoCompleteBlocksAndDoubleQoutes()
 	call CppComments()
 	call ShowTrailing()
-	call ExpandTabs(4)
-	" if you need to be compliant with Visual Studio
-	" call NoExpandTabs(4)
+	call NoExpandTabs(4)
 	call TextWidth()
 	call MakeMappings()
 endfunction
@@ -252,9 +251,7 @@ function LoadCpp()
 	call AutoCompleteBlocksAndDoubleQoutes()
 	call CppComments()
 	call ShowTrailing()
-	call ExpandTabs(4)
-	" if you need to be compliant with Visual Studio
-	" call NoExpandTabs(4)
+	call NoExpandTabs(4)
 	call TextWidth()
 	call MakeMappings()
 endfunction
