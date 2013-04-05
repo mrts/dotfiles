@@ -8,6 +8,10 @@ Let's ride:
     sudo cp bash.bashrc.local /etc/
     sudo sh -c "echo '. /etc/bash.bashrc.local' >> /etc/bash.bashrc"
 
+# Black text on white background in a TTY
+
+    setterm -foreground black -background white -store
+
 # In Windows
 
 1. Copy `gvimrc.local` and `vimrc.local` to `\Program Files (x86)\Vim\vim73`.
