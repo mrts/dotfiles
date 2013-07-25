@@ -32,6 +32,8 @@ set foldlevelstart=99
 
 vnoremap <C-X> "+x
 vnoremap <C-C> "+y
+" super-useful: search and replace selected text with Ctrl-R
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 map <C-Insert> "+gP
 " inoremap <C-Insert> <esc>"+gPi
 
