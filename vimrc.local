@@ -187,6 +187,7 @@ function PerlMakeMappings()
 endfunction
 
 function XMLTagComplete()
+	"iabbrev </ </<C-X><C-O>
 	map <F2> :s%<\([^>]\+\)>\(.*\)%<\1>\2</\1>%<enter>
 	imap <F2> <esc>:s%<\([^>]\+\)>\(.*\)%<\1>\2</\1>%<enter>o
 endfunction
