@@ -74,7 +74,8 @@ else
 fi
 HOSTCOL=$TUMEHALL
 
-. /etc/bash_completion.d/git
+# . /etc/bash_completion.d/git
+. /usr/share/bash-completion/completions/git
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # ---
