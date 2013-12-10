@@ -237,6 +237,10 @@ function FoldWithBraces()
 	set foldmethod=marker
 endfunction
 
+function IgnoreMixedCrLf()
+	match Ignore /\r$/
+endfunction
+
 " --- LANGUAGE SPECIFIC INITFUNCTIONS ---
 
 function LoadC()
