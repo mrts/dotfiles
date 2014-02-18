@@ -1,4 +1,5 @@
 " indispensable things: c-x f, gf, mappings, c-] and c-[, folds: zo, zc, zm, zr
+" paste into ex command line with: c-r "
 " ctags
 " local_vimrc.vim  http://code.google.com/p/lh-vim/
 " matchit.vim      http://www.vim.org/script.php?script_id=39
