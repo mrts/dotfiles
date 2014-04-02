@@ -8,6 +8,7 @@
 
 filetype plugin indent on
 syntax on
+colorscheme delek
 
 set autowrite
 set nocompatible
