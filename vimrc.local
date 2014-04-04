@@ -96,7 +96,7 @@ iab mit This program is free software; you can redistribute it and/or modify it 
 
 function ShowTabs()
         highlight Tabs ctermbg=blue guibg=blue
-        match Tabs /\t\ze[^\t]/
+        match Tabs /\t\+\ze[^\t]/
 endfunction
 
 function ShowTrailing()
@@ -105,7 +105,7 @@ function ShowTrailing()
 endfunction
 
 function HideMixedLineEndings()
-        match Ignore /\S\zs\r$/
+        match Ignore /\(\S\|^\)\zs\r$/
 endfunction
 
 function InsertGuards()
