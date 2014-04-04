@@ -104,7 +104,6 @@ function ShowTrailing()
         match TrailingSpace /\s\+$/
 endfunction
 
-
 function HideMixedLineEndings()
         match Ignore /\r$/
 endfunction
