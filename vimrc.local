@@ -104,6 +104,11 @@ function ShowTrailing()
         match TrailingSpace /\s\+$/
 endfunction
 
+
+function HideMixedLineEndings()
+        match Ignore /\r$/
+endfunction
+
 function InsertGuards()
         let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
         execute "normal ggO#ifndef " . gatename . "__"
