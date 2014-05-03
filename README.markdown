@@ -33,19 +33,24 @@ Let's ride:
 
 1. Replace builtin Vim with real Vim in Git Bash:
 
-        VIM_LOCATION='/c/Program\ Files\ \(x86\)/Vim/vim74/vim.exe'
+        VIM_LOCATION='/c/Program\ Files\ \(x86\)/Vim/vim74'
 
         cat <<EOF >> ~/.bashrc
-        alias vim='$VIM_LOCATION'
+        alias vim='$VIM_LOCATION/vim.exe'
         alias vi='vim'
-        export EDITOR=vimeditor
+        export EDITOR=vimedit
         EOF
 
-        cat <<EOF> ~/bin/vimeditor
+        cat <<EOF> ~/bin/vimedit
         #!/bin/bash
-        $VIM_LOCATION \$@
+        $VIM_LOCATION/vim.exe \$@
         EOF
         
+        cat <<EOF> ~/bin/gvimedit
+        #!/bin/bash
+        $VIM_LOCATION/gvim.exe \$@
+        EOF
+
 1. Configure Visual Studio according to the instructions in
    [Vim wiki](http://vim.wikia.com/wiki/Integrate_gvim_with_Visual_Studio).
 
