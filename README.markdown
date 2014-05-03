@@ -31,6 +31,13 @@ Let's ride:
         " source $VIMRUNTIME/mswin.vim
         " behave mswin
 
+1. Replace builtin Vim with real Vim in Git Bash:
+
+        cat <<EOF >> ~/.bashrc
+        alias vim='/c/Program\ Files\ \(x86\)/Vim/vim74/vim.exe'
+        alias vi='vim'
+        EOF
+
 1. Configure Visual Studio according to the instructions in
    [Vim wiki](http://vim.wikia.com/wiki/Integrate_gvim_with_Visual_Studio).
 
