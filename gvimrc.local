@@ -1,4 +1,8 @@
-set guifont=Monospace\ 14
+if has("gui_gtk2")
+  set guifont=Monospace\ 14
+elseif has("gui_win32")
+  set guifont=Consolas:h13:cANSI
+endif
 imap <C-s> <esc>:w<cr>i
 map <C-s> :w<cr>
 
