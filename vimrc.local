@@ -8,9 +8,9 @@
 
 filetype plugin indent on
 syntax on
-colorscheme delek
 
 set background=light
+
 set autowrite
 set nocompatible
 set showmatch
