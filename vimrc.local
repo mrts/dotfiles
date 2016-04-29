@@ -1,4 +1,5 @@
 " indispensable things: c-x f, gf, mappings, c-] and c-[, folds: zo, zc, zm, zr
+" delete blocks between regexes: :g/BEGIN CATCH/;/END CATCH/d, use +1, -1 etc
 " paste into ex command line with: c-r "
 " ctags
 " local_vimrc.vim  http://code.google.com/p/lh-vim/
