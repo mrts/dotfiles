@@ -7,9 +7,6 @@ Let's ride:
     sudo cp pyerrfilter.py gvimrc.local vimrc.local  /etc/vim/
     sudo cp bash.bashrc.local /etc/
     sudo sh -c "echo '. /etc/bash.bashrc.local' >> /etc/bash.bashrc"
-    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\vimrc.local' >> ~/.vimrc # for Git Bash vim
-    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\gvimrc.local' >> ~/.vimrc # keep gvim working
-    echo 'inoremap jj <esc>' >> ~/.ideavimrc # 'source ~/.vimrc' would be better, but doesn't work well on Windows
 
 # Black text on white background in a TTY
 
@@ -34,7 +31,7 @@ Let's ride:
         " source $VIMRUNTIME/mswin.vim
         " behave mswin
 
-1. Replace builtin Vim with real Vim in Git Bash:
+1. Either replace builtin Vim with real Vim in Git Bash:
 
         VIM_LOCATION='/c/Program\ Files\ \(x86\)/Vim/vim74'
 
@@ -53,6 +50,15 @@ Let's ride:
         #!/bin/bash
         $VIM_LOCATION/gvim.exe \$@
         EOF
+
+1. Or simply reuse global configuration in Git Bash Vim:
+
+    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\vimrc.local' >> ~/.vimrc # for Git Bash vim
+    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\gvimrc.local' >> ~/.vimrc # keep gvim working
+
+1. Configure IdeaVIM:
+
+    echo 'inoremap jj <esc>' >> ~/.ideavimrc # 'source ~/.vimrc' would be better, but doesn't work well on Windows
 
 1. Configure Visual Studio according to the instructions in
    [Vim wiki](http://vim.wikia.com/wiki/Integrate_gvim_with_Visual_Studio).
