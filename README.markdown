@@ -53,8 +53,8 @@ Let's ride:
 
 1. Or simply reuse global configuration in Git Bash Vim:
 
-    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\vimrc.local' >> ~/.vimrc # for Git Bash vim
-    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\gvimrc.local' >> ~/.vimrc # keep gvim working
+        echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\vimrc.local' >> ~/.vimrc # for Git Bash vim
+        echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\gvimrc.local' >> ~/.vimrc # keep gvim working
 
 1. Configure IdeaVIM:
 
