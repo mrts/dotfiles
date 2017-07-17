@@ -7,6 +7,9 @@ Let's ride:
     sudo cp pyerrfilter.py gvimrc.local vimrc.local  /etc/vim/
     sudo cp bash.bashrc.local /etc/
     sudo sh -c "echo '. /etc/bash.bashrc.local' >> /etc/bash.bashrc"
+    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\vimrc.local' >> ~/.vimrc # for Git Bash vim
+    echo 'source C:\\Program\ Files\ (x86)\\Vim\\vim80\\gvimrc.local' >> ~/.vimrc # keep gvim working
+    echo 'inoremap jj <esc>' >> ~/.ideavimrc # 'source ~/.vimrc' would be better, but doesn't work well on Windows
 
 # Black text on white background in a TTY
 
