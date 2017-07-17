@@ -58,7 +58,7 @@ Let's ride:
 
 1. Configure IdeaVIM:
 
-    echo 'inoremap jj <esc>' >> ~/.ideavimrc # 'source ~/.vimrc' would be better, but doesn't work well on Windows
+        echo 'inoremap jj <esc>' >> ~/.ideavimrc # 'source ~/.vimrc' would be better, but doesn't work well on Windows
 
 1. Configure Visual Studio according to the instructions in
    [Vim wiki](http://vim.wikia.com/wiki/Integrate_gvim_with_Visual_Studio).
